@@ -3,12 +3,18 @@ from create_app_db.create_db import create_db
 
 class Note:
     def __init__(self):
-        self.db = create_db()['note']
+        self.db = create_db()['test_db']
+        self.note_db = self.db['note']
+        self.todo_db = self.db['todo']
 
-    async def get_all(self):
-        notes = self.db.find()
-        return await notes.to_list(length=None)
+    async def get_where(self, **kwargs):
+        todo = self.todo_db.find(kwargs)
+        return await todo.to_list(length=None)
 
-    async def create(self, name):
-        print(dir(self.db))
-        return await self.db.insert({'name': name})
+    async def create_note(self, name):
+        obj_id = (await self.note_db.insert_one({'name': name})).inserted_id
+        return await self.note_db.find_one({'_id': obj_id})
+
+    async def create_todo(self, id, name):
+        obj_id = (await self.todo_db.insert_one({'name': name, 'note_id': id})).inserted_id
+        return await self.todo_db.find_one({'_id': obj_id})

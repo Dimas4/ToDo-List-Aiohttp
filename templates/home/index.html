@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block links %}
+	<link rel="stylesheet" type="text/css" href="{{ static('css/style.css') }}">
+{% endblock %}
+
 {% block content %}
 
 	<div class="container">
@@ -14,6 +18,9 @@
 					</div>
 			 	</label>
 			 	<button type="submit">submit</button>
+				<br>
+				<hr>
+				<a href="{{note_id}}">{{note_name}}</a>
 			</form>
 		</div>
 	</div>
