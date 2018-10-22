@@ -1,0 +1,5 @@
+mongo:
+  database: test_db
+  user: admin
+  password: adminadmin
+  host: localhost

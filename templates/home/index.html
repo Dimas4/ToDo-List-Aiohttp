@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			<form action="." method="POST">
+			 	<label>
+					<p class="label-txt">Note name</p>
+					<br>
+					<input id="name" name="name" type="text" class="input">
+					<div class="line-box">
+					  <div class="line"></div>
+					</div>
+			 	</label>
+			 	<button type="submit">submit</button>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}

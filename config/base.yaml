@@ -1,0 +1,2 @@
+database: !include database.yaml
+logger: !include logger.yaml
