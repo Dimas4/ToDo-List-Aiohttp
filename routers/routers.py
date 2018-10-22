@@ -1,16 +1,15 @@
 import aiohttp_jinja2
 
-from logger.create_logger import create_logger
-from config.get_config import get_config
-from service.service import Service
-from logger.logging import Loader
+from aiohttp.web import json_response
 from aiohttp import web
 
+from config.get_config import get_config
+from service.service import Service
 
-config = get_config(Loader)
+
+config = get_config()
 routes = web.RouteTableDef()
 service = Service()
-logger = create_logger(config)
 
 
 @routes.view("/")
@@ -39,4 +38,8 @@ class NoteView(web.View):
         note_id = self.request.match_info['note_id']
         todo_name = (await self.request.post()).get('name')
         note = await service.create_todo(note_id, todo_name)
-        return {'note_id': note['_id'], 'note_name': note['name']}
+        todo_list = await service.get_where(note_id=note_id)
+        print(note['_id'])
+        print(note['name'])
+        return json_response({'answer': {'_id': str(note['_id']), 'name': note['name']}})
+        # return {'note_id': note['_id'], 'note_name': note['name'], 'todo_list': todo_list}

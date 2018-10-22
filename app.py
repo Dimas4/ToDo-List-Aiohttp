@@ -7,4 +7,4 @@ from routers.add_routers import add_routers
 if __name__ == "__main__":
     app = create_app()
     add_routers(app)
-    web.run_app(app, port=7800)
+    web.run_app(app, port=7500)
