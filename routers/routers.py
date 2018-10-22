@@ -31,15 +31,12 @@ class NoteView(web.View):
     async def get(self):
         note_id = self.request.match_info['note_id']
         todo_list = await service.get_where(note_id=note_id)
-        return {'id': note_id, 'todo_list': todo_list}
+        return {'id': note_id, 'todo_list': todo_list[::-1]}
 
     @aiohttp_jinja2.template('home/todo_list.html')
     async def post(self):
         note_id = self.request.match_info['note_id']
         todo_name = (await self.request.post()).get('name')
         note = await service.create_todo(note_id, todo_name)
-        todo_list = await service.get_where(note_id=note_id)
-        print(note['_id'])
-        print(note['name'])
-        return json_response({'answer': {'_id': str(note['_id']), 'name': note['name']}})
-        # return {'note_id': note['_id'], 'note_name': note['name'], 'todo_list': todo_list}
+        print(note)
+        return json_response({'answer': {'note_id': str(note['_id']), 'name': note['name']}})

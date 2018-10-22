@@ -8,7 +8,6 @@
 
 	<div class="container">
 		<div class="row">
-			<p id="answer_text"></p>
 			<form action="." method="POST">
 			 	<label>
 					<p class="label-txt">Note name</p>
@@ -25,24 +24,5 @@
 			</form>
 		</div>
 	</div>
-
-	<script>
-		$(document).ready(function () {
-			$('form').on('submit', function (event) {
-				$.ajax({
-					data: {
-						location : $('#name').val(),
-					},
-					type: 'POST',
-					url: '/'
-				})
-					.done(function (data) {
-					   $('#answer_text').html(data.answer).show();
-
-					})
-				event.preventDefault();
-			})
-		})
-	</script>
 
 {% endblock %}

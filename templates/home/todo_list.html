@@ -18,14 +18,15 @@
                     </form>
                         <hr>
                         <ul id="sortable" class="list-unstyled">
-
-                        {% for todo in todo_list %}
-                             <li>
-                                <p style="font-size: 24px;">{{todo.name}}</p>
-                                 <a style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" href="/note/delete/{{todo._id}}">Delete</a>
-                            </li>
-                            <hr>
-                        {% endfor %}
+                        <div id="todo_list_id">
+                            {% for todo in todo_list %}
+                                 <li>
+                                    <p style="font-size: 24px;">{{todo.name}}</p>
+                                     <a style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" href="/note/delete/{{todo._id}}">Delete</a>
+                                </li>
+                                <hr>
+                            {% endfor %}
+                        </div>
 
                     </ul>
 
@@ -33,6 +34,28 @@
             </div>
         </div>
     </div>
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+	<script>
+		$(document).ready(function () {
+			$('form').on('submit', function (event) {
+				$.ajax({
+					data: {
+						name : $('#name').val(),
+					},
+					type: 'POST',
+					url: '/note/{{ id }}'
+				})
+					.done(function (data) {
+					   $('#todo_list_id').prepend(" <li>\n" +
+                           "      <p style=\"font-size: 24px;\">"+data.answer.name+"</p>\n" +
+                           "      <a style=\"margin-top: 5px;\" class=\"btn btn-sm btn-outline-danger\" href=\"/note/delete/"+data.answer.note_id+"\">Delete</a>\n" +
+                           " </li><hr>").show();
+
+					})
+				event.preventDefault();
+			})
+		})
+	</script>
 	<script src="{{ static('js/js_to_do.js') }}"></script>
 {% endblock %}
