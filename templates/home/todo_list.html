@@ -22,7 +22,7 @@
                             {% for todo in todo_list %}
                                  <li>
                                     <p style="font-size: 24px;">{{todo.name}}</p>
-                                     <a style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" href="/note/delete/{{todo._id}}">Delete</a>
+                                     <a style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" href="/note/delete/{{ id }}/{{todo._id}}">Delete</a>
                                 </li>
                                 <hr>
                             {% endfor %}
@@ -49,7 +49,7 @@
 					.done(function (data) {
 					   $('#todo_list_id').prepend(" <li>\n" +
                            "      <p style=\"font-size: 24px;\">"+data.answer.name+"</p>\n" +
-                           "      <a style=\"margin-top: 5px;\" class=\"btn btn-sm btn-outline-danger\" href=\"/note/delete/"+data.answer.note_id+"\">Delete</a>\n" +
+                           "      <a style=\"margin-top: 5px;\" class=\"btn btn-sm btn-outline-danger\" href=\"/note/delete/"+data.answer.note_id+"/"+data.answer._id+"\">Delete</a>\n" +
                            " </li><hr>").show();
 
 					})

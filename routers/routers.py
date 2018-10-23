@@ -38,5 +38,13 @@ class NoteView(web.View):
         note_id = self.request.match_info['note_id']
         todo_name = (await self.request.post()).get('name')
         note = await service.create_todo(note_id, todo_name)
-        print(note)
-        return json_response({'answer': {'note_id': str(note['_id']), 'name': note['name']}})
+        return json_response({'answer': {'_id': str(note['_id']), 'note_id': note_id, 'name': note['name']}})
+
+
+@routes.view("/note/delete/{note_id}/{todo_id}")
+class NoteView(web.View):
+    async def get(self):
+        todo_id = self.request.match_info['todo_id']
+        note_id = self.request.match_info['note_id']
+        await service.delete_todo(todo_id)
+        return web.HTTPFound(f'/note/{note_id}')

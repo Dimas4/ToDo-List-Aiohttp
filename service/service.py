@@ -14,3 +14,6 @@ class Service:
 
     async def create_todo(self, id, name):
         return await self.db.create_todo(id, name)
+
+    async def delete_todo(self, todo_id):
+        return await self.db.delete_todo(todo_id)
