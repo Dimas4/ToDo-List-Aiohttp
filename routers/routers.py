@@ -47,4 +47,4 @@ class NoteView(web.View):
         todo_id = self.request.match_info['todo_id']
         note_id = self.request.match_info['note_id']
         await service.delete_todo(todo_id)
-        return web.HTTPFound(f'/note/{note_id}')
+        return json_response({'answer': 'ok'})

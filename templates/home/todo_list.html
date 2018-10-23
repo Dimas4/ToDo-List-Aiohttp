@@ -20,11 +20,11 @@
                         <ul id="sortable" class="list-unstyled">
                         <div id="todo_list_id">
                             {% for todo in todo_list %}
-                                 <li>
+                                <div id="{{ todo._id }}-div">
                                     <p style="font-size: 24px;">{{todo.name}}</p>
-                                     <a style="margin-top: 5px;" class="btn btn-sm btn-outline-danger" href="/note/delete/{{ id }}/{{todo._id}}">Delete</a>
-                                </li>
-                                <hr>
+                                     <a style="margin-top: 5px;" id="{{ todo._id }}" class="tododelete btn btn-sm btn-outline-danger" href="/note/delete/{{ id }}/{{todo._id}}">Delete</a>
+                                    <hr>
+                                </div>
                             {% endfor %}
                         </div>
 
@@ -47,15 +47,36 @@
 					url: '/note/{{ id }}'
 				})
 					.done(function (data) {
-					   $('#todo_list_id').prepend(" <li>\n" +
+					   $('#todo_list_id').prepend("<div id="+data.answer._id+"-div>\n" +
                            "      <p style=\"font-size: 24px;\">"+data.answer.name+"</p>\n" +
-                           "      <a style=\"margin-top: 5px;\" class=\"btn btn-sm btn-outline-danger\" href=\"/note/delete/"+data.answer.note_id+"/"+data.answer._id+"\">Delete</a>\n" +
-                           " </li><hr>").show();
+                           "      <a style=\"margin-top: 5px;\" id="+data.answer._id+" class=\"tododelete btn btn-sm btn-outline-danger\" href=\"/note/delete/"+data.answer.note_id+"/"+data.answer._id+"\">Delete</a>\n" +
+                           " <hr>").show();
 
 					})
 				event.preventDefault();
 			})
 		})
 	</script>
+
+    <script>
+        $(document).ready(function () {
+			$('.tododelete').on('click', function (event) {
+			    var todo_id = this.id;
+                $.ajax({
+					data: {
+						todo_id : this.id,
+                        note_id: '{{ id }}'
+					},
+					type: 'GET',
+					url: '/note/delete/{{ id }}/'+this.id
+				})
+					.done(function (data) {
+					   $('#'+todo_id+"-div").remove();
+					});
+				event.preventDefault();
+			})
+		})
+	</script>
 	<script src="{{ static('js/js_to_do.js') }}"></script>
 {% endblock %}
+
